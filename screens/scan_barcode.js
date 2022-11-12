@@ -48,33 +48,26 @@ const ScanBarcode = ({navigation}) => {
             )
     }
 
-
     return (
         <View style={styles.container}>
-            <View style={styles.barcodebox}>
-                <BarCodeScanner 
-                    onBarCodeScanned={handleBarCodeScanned}
-                    style={{height:400, width:400}}
+            <View style = {styles.subcontainer}>
+                <View style={styles.barcodebox}>
+                    <BarCodeScanner 
+                        onBarCodeScanned={handleBarCodeScanned}
+                        style={{height:400, width:400}}
                     />
-           </View>
+                </View>
+
+                <View>
+                    <Pressable onPress={()=>navigation.navigate("ProductInfo", "test")}>
+                        <Text>Info Page</Text>
+                    </Pressable>
                     
+                </View>   
 
-        <View style={styles.container}>
-
-        { 
-        //<Text style={{textAlign: "center", fontSize: 25}}>Recycling Project</Text>
-
-        //<View style={styles.top} onPress={()=>navigation.navigate('ScanBarcode')}>
-        //<Pressable onPress={()=>navigation.navigate("ProductInfo", {paramKey: text})}>
-        //    <Text style={textButtons.normal}>Produjjjjct name: *name*</Text> 
-        //</Pressable>
-          
-        //  <Text style={textButtons.normal}>Co2 Equivalence **</Text>
-        //</View>  <Text style={textButtons.normal}>Alternative Option:</Text>
-        //<View>
-        }
-
-      </View>
+            </View>
+            
+                    
         </View>
 
     )
@@ -90,6 +83,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  subcontainer: {
+    flex: 0.,
+  },
   barcodebox:{
     alignItems:'center',
     justifyContent:'center',
@@ -97,7 +93,7 @@ const styles = StyleSheet.create({
     width: 300,
     overflow: 'hidden',
     borderRadius: 30,
-    backgroundColor:'tomato'
+    backgroundColor:'tomato',
   },
   mainText:{
     fontSize: 16,
