@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import MapView from 'react-native-maps';
 import { Button, StyleSheet, Text, View, Dimensions } from 'react-native';
 import { Marker, Callout } from "react-native-maps";
-import firestore from '@react-native-firebase/firestore';
+//import firestore from '@react-native-firebase/firestore';
 import {getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import {db} from '../firebase/firebase-config';
 
@@ -20,8 +20,6 @@ const tokyoRegion = {
 };
 
 
-
-
 const Locations = () => {
 
   const [markers, setMarkers] = useState([]);
@@ -29,12 +27,16 @@ const Locations = () => {
   const GetData = async () => {
     const PlaceCollection = collection(db, 'locations');
     const snapshot = await getDocs(PlaceCollection);
-    setMarker(snapshot.docs.map(doc => doc.data()));
+    setMarkers(snapshot.docs.map(doc => doc.data()));
     console.log(markers);
   }
 
   const [location, setLocation] = useState();
   const [errorMsg, setErrorMsg] = useState(null);
+
+
+
+  useEffect( () => GetData(), [] );
 
   useEffect(() => {
     (async () => {
@@ -64,6 +66,8 @@ const Locations = () => {
 
                 {location && <Marker coordinate={location.coords}/>}
 
+                {console.log(markers) }
+                { markers.map((mark => <Marker coordinate={mark}/>))}
             
             </MapView>
         </View>
