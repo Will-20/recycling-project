@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { Button, StyleSheet, Text, View, Dimensions } from 'react-native';
 import { Marker, Callout } from "react-native-maps";
+import firestore from '@react-native-firebase/firestore';
+import {getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import {db} from '../firebase/firebase-config';
 
 import * as Location from 'expo-location';
 
@@ -14,7 +17,10 @@ const tokyoRegion = {
     longitude: 139.6503,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
-  };
+};
+
+
+
 
 
 const Locations = () => {
@@ -43,7 +49,8 @@ const Locations = () => {
       }
 
 
-    return (
+
+      return (
         <View>
             <MapView 
               style={styles.map}
@@ -58,6 +65,19 @@ const Locations = () => {
     )
 
 }
+
+    //const GetData = async () => {
+    //    const PlaceCollection = collection(db, 'locations');
+    //    const snapshot = await getDocs(PlaceCollection);
+    //    const placeList = snapshot.docs.map(doc => doc.data());
+    //    console.log(placeList);
+    //}
+    //return (
+    //    <View>
+    //        <Text>Locations</Text>
+    //        <Button title={"wasssup"} onPress={GetData}/>
+    //    </View>
+    
 
 const styles = StyleSheet.create({
     container: {
