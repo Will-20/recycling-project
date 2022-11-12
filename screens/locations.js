@@ -20,7 +20,7 @@ const tokyoRegion = {
 };
 
 
-const Locations = () => {
+const Locations = ({navigation}) => {
 
   const [markers, setMarkers] = useState([]);
 
@@ -33,7 +33,6 @@ const Locations = () => {
 
   const [location, setLocation] = useState();
   const [errorMsg, setErrorMsg] = useState(null);
-
 
 
   useEffect( () => GetData(), [] );

@@ -1,16 +1,15 @@
-import { View, SafeAreaView, FlatList, Text, StyleSheet, Button } from 'react-native';
+import { View, SafeAreaView, FlatList, Text, StyleSheet, Button, Pressable } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 
 
-const Home = (props) => {
+const ScanBarcode = ({navigation}) => {
     const [hasPermission, setHasPermission] = useState(null);
-    const [scanned,setScanned] = useState(false);
-    const[text, setText] = useState('Not Yet Scanned');
-    const[product, setProduct] = useState('');
-    const[recycleble, setRecycleble] = useState(false);
-    const[howTo, setHowTo] = useState('');
+
+    //const [product, setProduct] = useState('');
+    //const [recycleble, setRecycleble] = useState(false);
+    //const [howTo, setHowTo] = useState('');
 
     const askForCameraPermission = () => {
         (async () => {
@@ -24,16 +23,15 @@ const Home = (props) => {
     }, []);
 
     const handleBarCodeScanned = ( {type, data}) => {
-        setScanned(true);
-        setText(data);
+        navigation.navigate("ProductInfo", {paramKey: data});
     }
 
     if(hasPermission === null){
         return(
             <View>
-            <Text>
-            I am requesting for cam position
-            </Text>
+                <Text>
+                    Awaiting Camera Permission
+                </Text>
             </View>
         )
     }
@@ -55,24 +53,26 @@ const Home = (props) => {
         <View style={styles.container}>
             <View style={styles.barcodebox}>
                 <BarCodeScanner 
-                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    onBarCodeScanned={handleBarCodeScanned}
                     style={{height:400, width:400}}
                     />
            </View>
-            <Text style = {styles.mainText}>{text}           
-            </Text>           
+                    
 
-            {scanned &&  <Button title={'scan again?'} onPress={() => {
-                setScanned(false)
-            }} color='tomato'/>}
-            <View style={styles.container}>
-        <Text style={{textAlign: "center", fontSize: 25}}>Recycling Project</Text>
+        <View style={styles.container}>
 
-        <View style={styles.top} onPress={()=>navigation.navigate("ScanBarcode")}>
-          <Text style={textButtons.normal}>Product name: *name*</Text> 
-          <Text style={textButtons.normal}>Co2 Equivalence **</Text>
-          <Text style={textButtons.normal}>Alternative Option:</Text>
-        </View>
+        { 
+        //<Text style={{textAlign: "center", fontSize: 25}}>Recycling Project</Text>
+
+        //<View style={styles.top} onPress={()=>navigation.navigate('ScanBarcode')}>
+        //<Pressable onPress={()=>navigation.navigate("ProductInfo", {paramKey: text})}>
+        //    <Text style={textButtons.normal}>Produjjjjct name: *name*</Text> 
+        //</Pressable>
+          
+        //  <Text style={textButtons.normal}>Co2 Equivalence **</Text>
+        //</View>  <Text style={textButtons.normal}>Alternative Option:</Text>
+        //<View>
+        }
 
       </View>
         </View>
@@ -80,7 +80,7 @@ const Home = (props) => {
     )
 }
 
-export default Home
+export default ScanBarcode
 
 const styles = StyleSheet.create({
   container: {
@@ -91,13 +91,12 @@ const styles = StyleSheet.create({
   },
 
   barcodebox:{
-    
     alignItems:'center',
     justifyContent:'center',
     height: 300,
-    width:300,
+    width: 300,
     overflow: 'hidden',
-    borderRaius: 30,
+    borderRadius: 30,
     backgroundColor:'tomato'
   },
   mainText:{
