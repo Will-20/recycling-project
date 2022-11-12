@@ -22,16 +22,24 @@ const tokyoRegion = {
 
 
 
-
 const Locations = () => {
 
-    const [location, setLocation] = useState();
-    const [errorMsg, setErrorMsg] = useState(null);
+  const [markers, setMarkers] = useState([]);
 
-    useEffect(() => {
-        (async () => {
-          let { status } = await Location.requestForegroundPermissionsAsync();
-          if (status !== 'granted') {
+  const GetData = async () => {
+    const PlaceCollection = collection(db, 'locations');
+    const snapshot = await getDocs(PlaceCollection);
+    setMarker(snapshot.docs.map(doc => doc.data()));
+    console.log(markers);
+  }
+
+  const [location, setLocation] = useState();
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+       if (status !== 'granted') {
             setErrorMsg('Permission to access location was denied');
             return;
           }
@@ -47,9 +55,6 @@ const Locations = () => {
       } else if (location) {
         text = JSON.stringify(location)
       }
-
-
-
       return (
         <View>
             <MapView 
@@ -66,17 +71,7 @@ const Locations = () => {
 
 }
 
-    //const GetData = async () => {
-    //    const PlaceCollection = collection(db, 'locations');
-    //    const snapshot = await getDocs(PlaceCollection);
-    //    const placeList = snapshot.docs.map(doc => doc.data());
-    //    console.log(placeList);
-    //}
-    //return (
-    //    <View>
-    //        <Text>Locations</Text>
-    //        <Button title={"wasssup"} onPress={GetData}/>
-    //    </View>
+
     
 
 const styles = StyleSheet.create({
