@@ -10,6 +10,9 @@ import Information from './screens/information';
 
 const Stack = createNativeStackNavigator();
 
+
+
+
 function scanBarcode() {
   alert("HI")
 }
