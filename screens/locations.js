@@ -1,13 +1,75 @@
-import React from 'react';
-import { Button, Text, View, } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import MapView from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { Marker, Callout } from "react-native-maps";
+
+import * as Location from 'expo-location';
+
+var t = {
+    latitude:10,
+};
+
+const tokyoRegion = {
+    latitude: 35.6762,
+    longitude: 139.6503,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  };
+
 
 const Locations = () => {
+
+    const [location, setLocation] = useState();
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation(location);
+        })();
+      }, []);
+    
+      let text = 'Waiting..';
+      if (errorMsg) {
+        text = errorMsg;
+      } else if (location) {
+        text = JSON.stringify(location)
+      }
+
+
     return (
         <View>
-            <Text>Locations</Text>
+            <MapView 
+              style={styles.map}
+              initialRegion={location}
+            > 
+
+                {location && <Marker coordinate={location.coords}/>}
+
+            
+            </MapView>
         </View>
     )
 
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    map: {
+      width: Dimensions.get('window').width,
+      height: Dimensions.get('window').height,
+    },
+  });
 
 export default Locations;

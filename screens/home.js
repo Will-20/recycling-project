@@ -2,9 +2,10 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 
+
 const textButtons = StyleSheet.create({
   normal: {
-    fontSize: 35,
+    fontSize: 30,
     color: "#fff",
     textAlign:'center',
   },
