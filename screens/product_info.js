@@ -38,8 +38,10 @@ const ProductInfo = ({route, navigation}) => {
     if (docSnap.exists()) {  
       const data = docSnap.data();
       setProdName(data['prod_name']);
-      setCarbon(data['Co2']);
+      setCarbon(data['co2']);
       setImg(data['url']);
+      console.log(data);
+      console.log(data['co2']);
       if(data['recyclable']){
         setRecycleable("Yes");
       }
@@ -67,7 +69,7 @@ const ProductInfo = ({route, navigation}) => {
             'data': [
             0,
             70,
-            carbon*1000
+            data['co2']
             ]
           }]
          
@@ -97,7 +99,7 @@ const ProductInfo = ({route, navigation}) => {
 
   function disposalColour() {
     if (bin == 'blue') {
-      return {backgroundColor: "#0066FF"}
+      return {backgroundColor: "#0099FF"}
     } else if (bin == 'green') {
       return {backgroundColor: "#339933"}
     } else if (bin == 'brown') {
@@ -128,7 +130,7 @@ const ProductInfo = ({route, navigation}) => {
           </View>
             
           <View style={styles.image_label_style}>
-            <Text style = {[{fontSize: 40}, styles.all_text_style]}>{prodName}</Text>
+            <Text style = {[{fontSize: 30}, styles.all_text_style]}>{prodName}</Text>
           </View>
 
           {
@@ -150,10 +152,10 @@ const ProductInfo = ({route, navigation}) => {
           }
 
           <View style = {styles.graph_row_style}>
-            <View>
-              <LineChart 
+            <Ripple onPress={()=> Alert.alert("Comparison","Producing this product emitted as much CO_2 as would be used by a LED for the duration shown.")}>
+              <BarChart 
                 data={dataGraph}
-                width={200} // from react-native
+                width={300} // from react-native
                 height={200}
                 yAxisLabel="$"
                 yAxisSuffix="k"
@@ -180,13 +182,14 @@ const ProductInfo = ({route, navigation}) => {
                   borderRadius: 16
                 }}
               />
-            </View>
+            </Ripple>
 
             
-
-            <View style = {styles.information_style}>
-              <Text style={styles.all_text_style}>Example</Text>
-            </View>
+              {
+            //<View style = {styles.information_style}>
+              //<Text style={styles.all_text_style}>Comparison: Producing this product emitted as much CO_2 as would be used by a LED for the duration shown.</Text>
+            //</View>
+}
           </View>
           
           {
@@ -222,7 +225,7 @@ const styles = StyleSheet.create({
   is_recyclable_text_style:  {fontFamily: 'Jost_500Medium', flex: 0.5, justifyContent: 'space-around', alignItems: 'center'},
   is_recyclable_answer_style:{flex: 0.3, borderLeftWidth: 1, justifyContent: 'space-around', alignItems: 'center', overflow:'hidden'},
   graph_row_style:           {justifyContent: 'center', flexDirection: 'row', margin: 5},
-  information_style:         {fontFamily: 'Jost_500Medium',flex: 0.5, borderWidth: 1, borderRadius: 10, padding: 30, alignItems: 'center', justifyContent: 'space-evenly', margin: 5},
+  information_style:         {fontFamily: 'Jost_500Medium',flex: 0.5, borderWidth: 1, borderRadius: 10, padding: 10, alignItems: 'center', justifyContent: 'space-evenly', margin: 5},
   disposal_text_style:       {fontFamily: 'Jost_500Medium',flex: 0.05, borderWidth: 1, borderRadius: 10, padding: 30, alignItems: 'center', justifyContent: 'space-evenly', margin: 5, width: 300},
   all_text_style:            {fontFamily: 'Jost_500Medium'}
 })

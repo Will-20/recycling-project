@@ -64,10 +64,11 @@ const Locations = ({navigation}) => {
               initialRegion={location}
             > 
 
-                {location && <Marker coordinate={location.coords}/>}
+                {//location && <Marker coordinate={location.coords}/>
+                }
 
-                {console.log(markers) }
-                { markers.map((mark => <Marker coordinate={mark}/>))}
+
+                { markers.map((mark => <Marker coordinate={ {latitude:mark['latitude'], longitude:mark['longitude'] } } title={mark['name']}/>))}
             
             </MapView>
         </View>

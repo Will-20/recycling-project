@@ -34,19 +34,20 @@ const Upload = ({route, navigation}) => {
     console.log(data["category"])
 
     if (barcodeData == "Please Scan Barcode" || data["category"] == "" || (data["category"] == "none" && data["Object"] == "")) {
-      alert("No, lol");
+      alert("Invalid Data");
     } else {
       
       let otherCategory = "N/A";
       if (data["Object"] != "") {
         otherCategory = data["Object"];
       }
-      await setDoc(doc(db, "temp", barcodeData), {
-        category2: data["category"],
-        category: data["category"],
-      });
       alert("Thanks!");
       navigation.navigate("Home");
+      await setDoc(doc(db, "temp", barcodeData), {
+        category: data["category"],
+        other: otherCategory
+      });
+      
     }
   };
 

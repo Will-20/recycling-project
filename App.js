@@ -15,6 +15,10 @@ import BinInformation from './screens/bin_data';
 import {useFonts, Jost_500Medium, Jost_500Medium_Italic} from "@expo-google-fonts/jost";
 import AppLoading from 'expo-app-loading';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
