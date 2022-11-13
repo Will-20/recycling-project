@@ -7,6 +7,12 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import DropDownPicker from "react-native-dropdown-picker";
 import {useForm, Controller} from 'react-hook-form';
 
+
+import {doc, setDoc} from 'firebase/firestore';
+//import firestore from '@react-native-firebase/firestore';
+import { db } from '../firebase/firebase-config';
+
+
 const Upload = ({route, navigation}) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -22,17 +28,25 @@ const Upload = ({route, navigation}) => {
   const [loading, setLoading] = useState(false);
   const { handleSubmit, control } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data, "data");
     console.log(barcodeData);
     console.log(data["category"])
 
     if (barcodeData == "Please Scan Barcode" || data["category"] == "" || (data["category"] == "none" && data["Object"] == "")) {
-      alert("No, lol")
+      alert("No, lol");
     } else {
-      // SEND DATA TO DATABASE HERE
-      alert("Thanks!")
-      navigation.navigate("Home")
+      
+      let otherCategory = "N/A";
+      if (data["Object"] != "") {
+        otherCategory = data["Object"];
+      }
+      await setDoc(doc(db, "temp", barcodeData), {
+        category2: data["category"],
+        category: data["category"],
+      });
+      alert("Thanks!");
+      navigation.navigate("Home");
     }
   };
 

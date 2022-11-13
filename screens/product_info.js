@@ -2,15 +2,57 @@ import React, {useState, useEffect} from 'react';
 import { SafeAreaView, FlatList, StyleSheet, Pressable, Image, Dimensions } from 'react-native';
 import { Button, Text, View, } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
+import {getFirestore, collection, getDoc, doc } from 'firebase/firestore/lite';
+import {db} from '../firebase/firebase-config';
 
 
 const ProductInfo = ({route, navigation}) => {
 
-  const GetBarcodeData = async () => {
-    const docRef = doc(db, "item_info", "5449000214607" );
+  const [carbon, setCarbon] = useState('');
+  const[prodName, setProdName] = useState('');
+  const [recycleable, setRecycleable] = useState('No');
+  const [img, setImg] = useState('');
+
+  const [dataGraph, setDataGraph] = useState({
+    'labels': ["","1 HOUR OF TV", "Product"],
+  'datasets': [
+    {
+      'data': [
+      0,
+      70,
+      70
+      ]
+    }]
+  });
+  
+  
+
+  const GetBarcodeData = async (barcodeID) => {
+    console.log(barcodeID);
+    const docRef = doc(db, "item_info", barcodeID);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {  
-      const  data = docSnap.data();
+      const data = docSnap.data();
+      setProdName(data['prod_name']);
+      setCarbon(data['Co2']);
+      setImg(data['url']);
+      if(data['recyclable']){
+        setRecycleable("Yes");
+      }
+
+      setDataGraph({
+        'labels': ["","1 HOUR OF TV", "Product"],
+        'datasets': [
+          {
+            'data': [
+            0,
+            70,
+            carbon*1000
+            ]
+          }]
+         
+      });
+  
       console.log("data is :", data);
     } else {
       // doc.data() will be undefined in this case
@@ -20,7 +62,21 @@ const ProductInfo = ({route, navigation}) => {
 
   const { paramKey } = route.params;
 
+  useEffect( () => {
+    GetBarcodeData(paramKey);
+}, []);
+
+
+
   useEffect( () => {alert(paramKey)}, [] );
+
+  function isRecyclable() {
+    if (recycleable) {
+      return {backgroundColor: 'green'}
+    } else {
+      return {backgroundColor: 'orange'}
+    }
+  }
 
   return (
       <View style = {styles.container}>
@@ -30,11 +86,11 @@ const ProductInfo = ({route, navigation}) => {
           }
 
           <View style={styles.image_view_style}>
-            <Image style = {styles.image_style} source={require('../assets/adaptive-icon.png')}/>
+            <Image style = {styles.image_style} defaultSource={require('../assets/adaptive-icon.png')} source={{uri:img}}/>
           </View>
             
           <View style={styles.image_label_style}>
-            <Text style = {[{fontSize: 40}, styles.all_text_style]}>Example</Text>
+            <Text style = {[{fontSize: 40}, styles.all_text_style]}>{prodName}</Text>
           </View>
 
           {
@@ -47,7 +103,7 @@ const ProductInfo = ({route, navigation}) => {
             </View>
 
             <View style = {styles.is_recyclable_answer_style}>
-              <Text style={styles.all_text_style}>Yes</Text>
+              <Text style={[styles.all_text_style, isRecyclable()]}>{recycleable}</Text>
             </View>
           </View>
 
@@ -58,18 +114,7 @@ const ProductInfo = ({route, navigation}) => {
           <View style = {styles.graph_row_style}>
             <View>
               <LineChart 
-                data={{
-                  labels: ["","1 HOUR OF TV", "Product"],
-                  datasets: [
-                    {
-                      data: [
-                      0,
-                      100,
-                      150
-                      ]
-                    }
-                  ]
-                }}
+                data={dataGraph}
                 width={Dimensions.get("window").width / 2.4} // from react-native
                 height={200}
                 yAxisLabel="$"
