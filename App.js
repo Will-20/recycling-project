@@ -8,6 +8,8 @@ import ScanBarcode from './screens/scan_barcode';
 import Locations from './screens/locations';
 import Information from './screens/information';
 import ProductInfo from './screens/product_info';
+import Upload from './screens/upload';
+
 
 
 import {useFonts, Jost_500Medium, Jost_500Medium_Italic} from "@expo-google-fonts/jost";
@@ -53,6 +55,12 @@ export default function App() {
             component={ProductInfo}
             options={{title: 'Product Information'}}
           />
+          <Stack.Screen
+            name='Upload'
+            component={Upload}
+            options={{title: 'Upload Data'}}
+          />
+
         </Stack.Navigator>
       </NavigationContainer>
     );

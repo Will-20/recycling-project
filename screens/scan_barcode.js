@@ -62,6 +62,9 @@ const ScanBarcode = ({navigation}) => {
                     <Pressable onPress={()=>navigation.navigate("ProductInfo", "test")}>
                         <Text style={styles.all_text_style}>Info Page</Text>
                     </Pressable>
+                    <Pressable onPress={()=>navigation.navigate("Upload", "test")}>
+                        <Text style={styles.all_text_style}>Upload</Text>
+                    </Pressable>
                     
                 </View>   
 

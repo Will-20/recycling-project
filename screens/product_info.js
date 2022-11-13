@@ -34,7 +34,7 @@ const ProductInfo = ({route, navigation}) => {
           </View>
             
           <View style={styles.image_label_style}>
-            <Text style = {[{fontSize: 40}, styles.all_text_style]}>Coke Can</Text>
+            <Text style = {[{fontSize: 40}, styles.all_text_style]}>Example</Text>
           </View>
 
           {
