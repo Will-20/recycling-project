@@ -132,9 +132,9 @@ const chartConfig = {
 
 const styles = StyleSheet.create({
   container:                 {flex: 1,backgroundColor: '#fff',alignItems: 'center', justifyContent: 'spaced-between'},
-  image_view_style:          {flex: 0.5, borderWidth: 1, margin: 5, overflow: 'hidden', borderRadius: 20},
+  image_view_style:          {flex: 0.5, borderWidth: 1, margin: 5, overflow: 'hidden', borderRadius: 20, justifyContent: 'center'},
   image_style:               {height: 250, width: 250, overflow: 'hidden'},
-  image_label_style:         {fontFamily: 'Jost_500Medium',flex: 0.17, borderWidth: 1, justifyContent: 'space-around', alignItems: 'center', margin: 5, width: Dimensions.get("window").width / 1.4, borderRadius: 5},
+  image_label_style:         {fontFamily: 'Jost_500Medium',flex: 0.17, justifyContent: 'space-around', alignItems: 'center', margin: 5, width: Dimensions.get("window").width / 1.3, borderRadius: 5, backgroundColor: '#D0FFE5'},
   is_recyclable_row_style:   {flex: 0.1, borderWidth: 1, justifyContent: 'space-around', flexDirection: 'row', margin: 5, borderRadius: 10},
   is_recyclable_text_style:  {fontFamily: 'Jost_500Medium', flex: 0.5, justifyContent: 'space-around', alignItems: 'center'},
   is_recyclable_answer_style:{flex: 0.3, borderLeftWidth: 1, justifyContent: 'space-around', alignItems: 'center'},

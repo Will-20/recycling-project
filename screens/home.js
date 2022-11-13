@@ -1,6 +1,6 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-
+import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
+import Ripple from 'react-native-material-ripple';
 
 
 const textButtons = StyleSheet.create({
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center', //Centered horizontally
       alignItems: 'center', //Centered vertically
     },
+    image_style: {height: 250, width: 250, overflow: 'hidden', margin:5},
   });
 
 const Home = ({navigation}) => {
@@ -59,17 +60,18 @@ const Home = ({navigation}) => {
       <View style={styles.container}>
         <Text style={{textAlign: "center", fontSize: 25}}>Recycling Project</Text>
 
-        <Pressable style = {styles.top} onPress={()=>navigation.navigate("Locations")}>
+        <Ripple style = {styles.top} onPress={()=>navigation.navigate("Locations")}>
           <Text style={textButtons.normal}>Recycling Locations</Text>
-        </Pressable>
+        </Ripple>
 
-        <Pressable style={styles.middle} onPress={()=>navigation.navigate("ScanBarcode")}>
+        <Ripple style={styles.middle} onPress={()=>navigation.navigate("ScanBarcode")}>
+          <Image style = {styles.image_style} source={require('../assets/qr_icon.png')}/>
           <Text style={textButtons.normal}>Scan Barcode</Text> 
-        </Pressable>
+        </Ripple>
         
-        <Pressable style = {styles.bottom} onPress={()=>navigation.navigate("Information")}>
+        <Ripple style = {styles.bottom} onPress={()=>navigation.navigate("Information")}>
           <Text style={textButtons.normal}>Recycling Information</Text>
-        </Pressable>
+        </Ripple>
 
       </View>
     );
