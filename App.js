@@ -9,7 +9,7 @@ import Locations from './screens/locations';
 import Information from './screens/information';
 import ProductInfo from './screens/product_info';
 import Upload from './screens/upload';
-
+import BinInformation from './screens/bin_data';
 
 
 import {useFonts, Jost_500Medium, Jost_500Medium_Italic} from "@expo-google-fonts/jost";
@@ -59,6 +59,11 @@ export default function App() {
             name='Upload'
             component={Upload}
             options={{title: 'Upload Data'}}
+          />
+          <Stack.Screen
+            name='BinInformation'
+            component={BinInformation}
+            options={{title: 'Bin Information'}}
           />
 
         </Stack.Navigator>

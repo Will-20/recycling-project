@@ -57,20 +57,11 @@ const ScanBarcode = ({navigation}) => {
                         style={{height:400, width:400}}
                     />
                 </View>
-
-                <View>
-                    <Pressable onPress={()=>navigation.navigate("ProductInfo", "test")}>
-                        <Text style={styles.all_text_style}>Info Page</Text>
-                    </Pressable>
-                    <Pressable onPress={()=>navigation.navigate("Upload", "test")}>
-                        <Text style={styles.all_text_style}>Upload</Text>
-                    </Pressable>
-                    
-                </View>   
-
             </View>
-            
-                    
+            <View>
+                <Text style={styles.all_text_style}>Scan a Barcode</Text>
+            </View>
+                
         </View>
 
     )
@@ -87,7 +78,7 @@ const styles = StyleSheet.create({
   },
 
   subcontainer: {
-    flex: 0.,
+    flex: 0.7,
   },
   barcodebox:{
     alignItems:'center',

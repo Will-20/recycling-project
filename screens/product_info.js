@@ -1,17 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import { SafeAreaView, FlatList, StyleSheet, Pressable, Image, Dimensions } from 'react-native';
+import { SafeAreaView, FlatList, StyleSheet, Pressable, Image, Dimensions, Alert } from 'react-native';
 import { Button, Text, View, } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
 import {getFirestore, collection, getDoc, doc } from 'firebase/firestore/lite';
 import {db} from '../firebase/firebase-config';
-
+import Ripple from 'react-native-material-ripple';
 
 const ProductInfo = ({route, navigation}) => {
 
   const [carbon, setCarbon] = useState('');
-  const[prodName, setProdName] = useState('');
+  const [prodName, setProdName] = useState('');
   const [recycleable, setRecycleable] = useState('No');
   const [img, setImg] = useState('');
+  const [bin, setBin] = useState(3);
+  const [disposalText, setDisposalText] = useState('Specialized Disposal');
+  const [binDescription, setBinDescription] = useState('Error');
+
+  // 0 - recyclable, 1 - food waste, 2 - black bin, 3 - specialized
 
   const [dataGraph, setDataGraph] = useState({
     'labels': ["","1 HOUR OF TV", "Product"],
@@ -24,7 +29,6 @@ const ProductInfo = ({route, navigation}) => {
       ]
     }]
   });
-  
   
 
   const GetBarcodeData = async (barcodeID) => {
@@ -39,6 +43,22 @@ const ProductInfo = ({route, navigation}) => {
       if(data['recyclable']){
         setRecycleable("Yes");
       }
+
+      setBin(data['bin'])
+
+      setBinDescription(data['bin_description'])
+
+      if (data['bin'] == 'blue') {
+        setDisposalText('Normal Recyclable')
+      } else if (data['bin'] == 'green') {
+        setDisposalText('Food Waste Bin')
+      } else if (data['bin'] == 'brown') {
+        setDisposalText('General Waste')
+      } else {
+        setDisposalText('Specialised Disposal')
+      }
+
+      console.log(bin)
 
       setDataGraph({
         'labels': ["","1 HOUR OF TV", "Product"],
@@ -67,14 +87,32 @@ const ProductInfo = ({route, navigation}) => {
 }, []);
 
 
-
-  useEffect( () => {alert(paramKey)}, [] );
-
   function isRecyclable() {
-    if (recycleable) {
-      return {backgroundColor: 'green'}
+    if (recycleable != 'No') {
+      return {backgroundColor: "#00CC66"}
     } else {
-      return {backgroundColor: 'orange'}
+      return {backgroundColor: "#CC6633"}
+    }
+  }
+
+  function disposalColour() {
+    if (bin == 'blue') {
+      return {backgroundColor: "#0066FF"}
+    } else if (bin == 'green') {
+      return {backgroundColor: "#339933"}
+    } else if (bin == 'brown') {
+      return {backgroundColor: "#996633"}
+    } else {
+      return {backgroundColor: "#rff3333"}
+    }
+  }
+
+  function explainBins() {
+    if (bin == 'brown' || bin == 'green' || bin == 'blue') {
+      Alert.alert('Acceptable Bins', binDescription)
+    } else {
+      alert("This is not recyclable, it will need to be taken to a specialised centre")
+      navigation.navigate("Locations")
     }
   }
 
@@ -102,8 +140,8 @@ const ProductInfo = ({route, navigation}) => {
               <Text style={styles.all_text_style}>Is Recyclable</Text>
             </View>
 
-            <View style = {styles.is_recyclable_answer_style}>
-              <Text style={[styles.all_text_style, isRecyclable()]}>{recycleable}</Text>
+            <View style = {[styles.is_recyclable_answer_style, isRecyclable()]}>
+              <Text style={styles.all_text_style}>{recycleable}</Text>
             </View>
           </View>
 
@@ -115,7 +153,7 @@ const ProductInfo = ({route, navigation}) => {
             <View>
               <LineChart 
                 data={dataGraph}
-                width={Dimensions.get("window").width / 2.4} // from react-native
+                width={200} // from react-native
                 height={200}
                 yAxisLabel="$"
                 yAxisSuffix="k"
@@ -155,9 +193,9 @@ const ProductInfo = ({route, navigation}) => {
             //---------------------------------------------------------------------------------
           }
 
-          <View style = {styles.disposal_text_style}>
-            <Text style={styles.all_text_style}>Example</Text>
-          </View>
+          <Ripple style = {[styles.disposal_text_style, disposalColour()]} onPress={()=> explainBins()}>
+            <Text style={styles.all_text_style}>{disposalText}</Text>
+          </Ripple>
 
       </View>
   )
@@ -180,12 +218,12 @@ const styles = StyleSheet.create({
   image_view_style:          {flex: 0.5, borderWidth: 1, margin: 5, overflow: 'hidden', borderRadius: 20, justifyContent: 'center'},
   image_style:               {height: 250, width: 250, overflow: 'hidden'},
   image_label_style:         {fontFamily: 'Jost_500Medium',flex: 0.17, justifyContent: 'space-around', alignItems: 'center', margin: 5, width: Dimensions.get("window").width / 1.3, borderRadius: 5, backgroundColor: '#D0FFE5'},
-  is_recyclable_row_style:   {flex: 0.1, borderWidth: 1, justifyContent: 'space-around', flexDirection: 'row', margin: 5, borderRadius: 10},
+  is_recyclable_row_style:   {flex: 0.1, borderWidth: 1, justifyContent: 'space-around', flexDirection: 'row', margin: 5, borderRadius: 10, overflow:'hidden'},
   is_recyclable_text_style:  {fontFamily: 'Jost_500Medium', flex: 0.5, justifyContent: 'space-around', alignItems: 'center'},
-  is_recyclable_answer_style:{flex: 0.3, borderLeftWidth: 1, justifyContent: 'space-around', alignItems: 'center'},
-  graph_row_style:           {justifyContent: 'space-around', flexDirection: 'row', margin: 5},
-  information_style:         {fontFamily: 'Jost_500Medium',flex: 0.5, borderWidth: 1, borderRadius: 10, padding: 40, alignItems: 'center', justifyContent: 'space-evenly', margin: 5},
-  disposal_text_style:       {fontFamily: 'Jost_500Medium',flex: 0.05, borderWidth: 1, borderRadius: 10, padding: 40, alignItems: 'center', justifyContent: 'space-evenly', margin: 5, width: Dimensions.get("window").width / 1.4},
+  is_recyclable_answer_style:{flex: 0.3, borderLeftWidth: 1, justifyContent: 'space-around', alignItems: 'center', overflow:'hidden'},
+  graph_row_style:           {justifyContent: 'center', flexDirection: 'row', margin: 5},
+  information_style:         {fontFamily: 'Jost_500Medium',flex: 0.5, borderWidth: 1, borderRadius: 10, padding: 30, alignItems: 'center', justifyContent: 'space-evenly', margin: 5},
+  disposal_text_style:       {fontFamily: 'Jost_500Medium',flex: 0.05, borderWidth: 1, borderRadius: 10, padding: 30, alignItems: 'center', justifyContent: 'space-evenly', margin: 5, width: 300},
   all_text_style:            {fontFamily: 'Jost_500Medium'}
 })
 
