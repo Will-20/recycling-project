@@ -60,7 +60,7 @@ const ScanBarcode = ({navigation}) => {
 
                 <View>
                     <Pressable onPress={()=>navigation.navigate("ProductInfo", "test")}>
-                        <Text>Info Page</Text>
+                        <Text style={styles.all_text_style}>Info Page</Text>
                     </Pressable>
                     
                 </View>   
@@ -106,11 +106,13 @@ const styles = StyleSheet.create({
       alignItems: 'center', //Centered vertically
       height:"50%",
       bottom: 35
-    }
+    },
+    all_text_style: {fontFamily: 'Jost_500Medium'}
   });
 
 const textButtons = StyleSheet.create({
   normal: {
+    fontFamily: 'Jost_500Medium',
     fontSize: 35,
     color: "#fff",
     textAlign:'center'

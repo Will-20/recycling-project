@@ -4,7 +4,6 @@ import { Button, Text, View, } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
 
 
-
 const ProductInfo = ({route, navigation}) => {
 
   const GetBarcodeData = async () => {
@@ -25,31 +24,40 @@ const ProductInfo = ({route, navigation}) => {
 
   return (
       <View style = {styles.container}>
-          <View style={{flex: 0.4, borderWidth: 1,}}>
+
+          {
+            //---------------------------------------------------------------------------------
+          }
+
+          <View style={styles.image_view_style}>
             <Image style = {styles.image_style} source={require('../assets/adaptive-icon.png')}/>
           </View>
             
-          <View style={{flex: 0.1, borderWidth: 1, justifyContent: 'space-around', alignItems: 'center'}}>
-            <Text style = {{fontSize: 30}}>Coke Can</Text>
+          <View style={styles.image_label_style}>
+            <Text style = {[{fontSize: 40}, styles.all_text_style]}>Coke Can</Text>
           </View>
 
-          <View style={{justifyContent: 'space-around', flex: 0.1, flexDirection: 'row', borderWidth: 1}}>
+          {
+            //---------------------------------------------------------------------------------
+          }
 
-            <View style = {{flex: 0.5, borderWidth: 1, justifyContent: 'space-around', alignItems: 'center'}}>
-              <Text >Is Recyclable</Text>
-            </View>
-            <View style = {{flex: 0.3, borderWidth: 1, justifyContent: 'space-around', alignItems: 'center'}}>
-              <Text>Yes</Text>
+          <View style={styles.is_recyclable_row_style}>
+            <View style = {styles.is_recyclable_text_style}>
+              <Text style={styles.all_text_style}>Is Recyclable</Text>
             </View>
 
-           
-    
-            
+            <View style = {styles.is_recyclable_answer_style}>
+              <Text style={styles.all_text_style}>Yes</Text>
+            </View>
           </View>
 
-          <View style = {{justifyContent: 'space-around', flexDirection: 'row'}}>
+          {
+            //---------------------------------------------------------------------------------
+          }
+
+          <View style = {styles.graph_row_style}>
             <View>
-              <LineChart style = {{flex: 0.5}}
+              <LineChart 
                 data={{
                   labels: ["","1 HOUR OF TV", "Product"],
                   datasets: [
@@ -90,11 +98,22 @@ const ProductInfo = ({route, navigation}) => {
                 }}
               />
             </View>
-            <View style = {{flex: 0.5, padding: 40, alignItems: 'center', justifyContent: 'space-evenly'}}>
-              <Text>Example</Text>
+
+            
+
+            <View style = {styles.information_style}>
+              <Text style={styles.all_text_style}>Example</Text>
             </View>
           </View>
           
+          {
+            //---------------------------------------------------------------------------------
+          }
+
+          <View style = {styles.disposal_text_style}>
+            <Text style={styles.all_text_style}>Example</Text>
+          </View>
+
       </View>
   )
 
@@ -112,20 +131,17 @@ const chartConfig = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'spaced-between',
-  },
-  image_style:{
-    height: 250,
-    width: 250
-  },
-  image_label_style:{},
-  is_recyclable_row_style:{},
-  graph_row_style:{},
-  information_style:{}
+  container:                 {flex: 1,backgroundColor: '#fff',alignItems: 'center', justifyContent: 'spaced-between'},
+  image_view_style:          {flex: 0.5, borderWidth: 1, margin: 5, overflow: 'hidden', borderRadius: 20},
+  image_style:               {height: 250, width: 250, overflow: 'hidden'},
+  image_label_style:         {fontFamily: 'Jost_500Medium',flex: 0.17, borderWidth: 1, justifyContent: 'space-around', alignItems: 'center', margin: 5, width: Dimensions.get("window").width / 1.4, borderRadius: 5},
+  is_recyclable_row_style:   {flex: 0.1, borderWidth: 1, justifyContent: 'space-around', flexDirection: 'row', margin: 5, borderRadius: 10},
+  is_recyclable_text_style:  {fontFamily: 'Jost_500Medium', flex: 0.5, justifyContent: 'space-around', alignItems: 'center'},
+  is_recyclable_answer_style:{flex: 0.3, borderLeftWidth: 1, justifyContent: 'space-around', alignItems: 'center'},
+  graph_row_style:           {justifyContent: 'space-around', flexDirection: 'row', margin: 5},
+  information_style:         {fontFamily: 'Jost_500Medium',flex: 0.5, borderWidth: 1, borderRadius: 10, padding: 40, alignItems: 'center', justifyContent: 'space-evenly', margin: 5},
+  disposal_text_style:       {fontFamily: 'Jost_500Medium',flex: 0.05, borderWidth: 1, borderRadius: 10, padding: 40, alignItems: 'center', justifyContent: 'space-evenly', margin: 5, width: Dimensions.get("window").width / 1.4},
+  all_text_style:            {fontFamily: 'Jost_500Medium'}
 })
 
 

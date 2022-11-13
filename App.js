@@ -7,60 +7,57 @@ import Home from './screens/home'
 import ScanBarcode from './screens/scan_barcode';
 import Locations from './screens/locations';
 import Information from './screens/information';
+import ProductInfo from './screens/product_info';
+
+
+import {useFonts, Jost_500Medium, Jost_500Medium_Italic} from "@expo-google-fonts/jost";
+import AppLoading from 'expo-app-loading';
 
 const Stack = createNativeStackNavigator();
 
-
-
-
-function scanBarcode() {
-  alert("HI")
-}
-
-function recyclingLocations() {
-  alert("Recycling Locations")
-}
-
-function recyclingInformation() {
-  alert("Recycling Locations")
-}
-
-const ScanBarcodePage = ({ navigation }) => {
-  return (
-    <View>
-      <Text>Home</Text>
-    </View>
-
-  )
-}
-
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen
-          name='Home'
-          component={Home}
-          options={{title: 'Home'}}
-        />
-        <Stack.Screen
-          name='ScanBarcode'
-          component={ScanBarcode}
-          options={{title: 'Scan Barcode'}}
-        />
-        <Stack.Screen
-          name='Locations'
-          component={Locations}
-          options={{title: 'Recycling Locations'}}
-        />
-        <Stack.Screen
-          name='Information'
-          component={Information}
-          options={{title: 'Recycling Information'}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+
+  let [fontsLoaded] = useFonts({
+    Jost_500Medium,
+    Jost_500Medium_Italic
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading/>
+  } else {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Home'>
+          <Stack.Screen
+            name='Home'
+            component={Home}
+            options={{title: 'Home'}}
+          />
+          <Stack.Screen
+            name='ScanBarcode'
+            component={ScanBarcode}
+            options={{title: 'Scan Barcode'}}
+          />
+          <Stack.Screen
+            name='Locations'
+            component={Locations}
+            options={{title: 'Recycling Locations'}}
+          />
+          <Stack.Screen
+            name='Information'
+            component={Information}
+            options={{title: 'Recycling Information'}}
+          />
+          <Stack.Screen
+            name='ProductInfo'
+            component={ProductInfo}
+            options={{title: 'Product Information'}}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+ 
 }
 
 const styles = StyleSheet.create({

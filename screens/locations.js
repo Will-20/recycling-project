@@ -6,6 +6,7 @@ import { Marker, Callout } from "react-native-maps";
 import {getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import {db} from '../firebase/firebase-config';
 
+
 import * as Location from 'expo-location';
 
 var t = {
