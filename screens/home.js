@@ -58,7 +58,7 @@ const Home = ({navigation}) => {
     return (
 
       <View style={styles.container}>
-        <Text style={{textAlign: "center", fontSize: 25}}>Recycling Project</Text>
+        <Text style={{textAlign: "center", fontSize: 40, fontFamily: 'Jost_500Medium'}}>EcoPal</Text>
 
         <Ripple style = {styles.top} onPress={()=>navigation.navigate("Locations")}>
           <Text style={textButtons.normal}>Recycling Locations</Text>
@@ -69,8 +69,8 @@ const Home = ({navigation}) => {
           <Text style={textButtons.normal}>Scan Barcode</Text> 
         </Ripple>
         
-        <Ripple style = {styles.bottom} onPress={()=>navigation.navigate("Information")}>
-          <Text style={textButtons.normal}>Recycling Information</Text>
+        <Ripple style = {styles.bottom} onPress={()=>navigation.navigate("Upload")}>
+          <Text style={textButtons.normal}>Upload Packaging</Text>
         </Ripple>
 
       </View>

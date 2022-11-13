@@ -9,7 +9,8 @@ import {useForm, Controller} from 'react-hook-form';
 
 const Upload = ({route, navigation}) => {
   const [hasPermission, setHasPermission] = useState(null);
-
+  const [scanned, setScanned] = useState(false);
+  const [barcodeData, setBarcodeData] = useState("Please Scan Barcode");
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [categoryValue, setCategoryValue] = useState(null);
   const [category, setCategory] = useState([
@@ -23,6 +24,16 @@ const Upload = ({route, navigation}) => {
 
   const onSubmit = (data) => {
     console.log(data, "data");
+    console.log(barcodeData);
+    console.log(data["category"])
+
+    if (barcodeData == "Please Scan Barcode" || data["category"] == "" || (data["category"] == "none" && data["Object"] == "")) {
+      alert("No, lol")
+    } else {
+      // SEND DATA TO DATABASE HERE
+      alert("Thanks!")
+      navigation.navigate("Home")
+    }
   };
 
   const askForCameraPermission = () => {
@@ -36,8 +47,8 @@ const Upload = ({route, navigation}) => {
     }, []);
 
     const handleBarCodeScanned = ( {type, data}) => {
-        //EDIT THIS!!!
-        navigation.navigate("ProductInfo", {paramKey: data});
+      setScanned(true);
+      setBarcodeData(data)
     }
 
     if(hasPermission === null){
@@ -70,10 +81,8 @@ const Upload = ({route, navigation}) => {
             style={styles.barcode_style}
             />      
           </View>
-          <Text style={styles.text_style}>Please Scan Barcode</Text>
+          <Text style={styles.text_style}>{barcodeData}</Text>
         </View>
-
-          <Text style={styles.text_style}>Name</Text>
         
         <View style={styles.top}>
           
@@ -132,7 +141,7 @@ const Upload = ({route, navigation}) => {
           />
         </View>
         <View style = {styles.button_view}>
-          <Ripple style = {styles.button} onPress={()=>navigation.navigate("Information")}>
+          <Ripple style = {styles.button} onPress={handleSubmit(onSubmit)}>
             <Text style={textButtons.normal}>Submit</Text>
           </Ripple>
         </View>
